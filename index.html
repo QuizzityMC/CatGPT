@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>DogGPT</title>
     <style>
+        /* Copilot/CatGPT Inspired UI */
         body {
-            background: #222;
-            color: #fff;
+            background: #f0f2f5; /* Light gray background */
+            color: #333;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
@@ -19,146 +20,140 @@
         #app {
             width: 80%;
             max-width: 900px;
-            background: #333;
-            border-radius: 15px;
+            background: #fff;
+            border-radius: 10px;
             overflow: hidden;
-            display: grid;
-            grid-template-columns: 250px auto;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* More subtle shadow */
+            display: flex; /* Use flexbox for overall layout */
+            flex-direction: column;
             height: 90vh;
         }
 
+        /* Sidebar */
         #sidebar {
-            background: #444;
+            background: #fff;
+            border-right: 1px solid #e0e0e0;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            width: 250px;
+            flex-shrink: 0; /* Don't let the sidebar shrink */
         }
 
         #newthread input[type=button] {
-            background: transparent;
+            background: #3498db; /* Blue button */
             color: #fff;
-            font-size: 16px;
-            border: 1px solid #666;
-            padding: 12px;
-            border-radius: 25px;
+            font-size: 14px;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
             text-align: left;
             cursor: pointer;
             transition: background-color 0.3s;
+            width: 100%;
+            margin-bottom: 20px;
         }
 
         #newthread input[type=button]:hover {
-            background-color: #555;
+            background: #2980b9;
         }
 
         #functions {
-            padding-top: 20px;
+            display: flex;
+            flex-direction: column; /* Stack functions vertically */
         }
 
         #functions a {
             display: block;
-            color: #fff;
+            color: #555;
             text-decoration: none;
-            padding: 12px;
-            border-radius: 25px;
+            padding: 10px;
+            border-radius: 5px;
             margin-bottom: 10px;
-            background-color: #555;
             transition: background-color 0.3s;
         }
 
         #functions a:hover {
-            background-color: #666;
+            background: #f5f5f5;
         }
 
+        /* Chat Window */
         #chatwindow {
-            background: #282828;
+            background: #f0f2f5;
             display: flex;
             flex-direction: column;
             padding: 20px;
-            height: 100%;
-            box-sizing: border-box; /* Important: Include padding in height calculation */
-            position: relative; /* Added relative positioning */
+            flex-grow: 1; /* Let chat window take up remaining space */
+            overflow: hidden;
         }
 
+        /* Conversation */
         #chatwindow .conversation {
             overflow-y: auto;
             padding-bottom: 20px;
             flex-grow: 1;
-            /*height: calc(100% - 100px);*/ /*  Calculated based on other elements */
         }
 
         .thread {
-            padding: 10px;
-            border-radius: 10px;
+            padding: 10px 15px;
+            border-radius: 8px;
             margin-bottom: 10px;
+            word-break: break-word; /* prevent horizontal overflow */
         }
 
         .thread.fromuser {
-            background: #444;
+            background: #e8f0fe; /* Light blue */
             text-align: right;
         }
 
         .thread.fromdog {
-            background: #555;
+            background: #fff;
             text-align: left;
+            border: 1px solid #ddd;
         }
 
         .thread .msg {
             word-wrap: break-word;
         }
 
+        /* Chatbox */
         #chatwindow .chatbox {
-            background: #333;
-            border-top: 1px solid #444;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            position: absolute; /* Important: Changed to absolute */
-            bottom: 0; /* Stick to the bottom */
-            left: 0; /* Align to left */
-            width: calc(100% - 40px); /* added to align to left, minus the padding in the #chatwindow */
+            background: #fff;
+            border-top: 1px solid #e0e0e0;
+            padding: 10px;
             box-sizing: border-box;
-            margin: 20px;  /* added the paddings */
         }
 
         #chatwindow .inputbox {
-            background: #444;
-            border-radius: 25px;
-            padding: 10px 15px;
             display: flex;
             align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
         }
 
         #chatwindow .inputbox input {
             flex: 1;
             background: transparent;
             border: none;
-            color: #fff;
             font-size: 16px;
-            padding: 8px 12px;
+            padding: 8px;
             outline: none;
         }
 
         #chatwindow .inputbox .button a {
-            background: #666;
+            background: #3498db;
             color: #fff;
-            border-radius: 50%;
-            padding: 8px;
+            border-radius: 5px;
+            padding: 8px 12px;
             text-decoration: none;
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            text-align: center;
-            line-height: 24px;
             transition: background-color 0.3s;
         }
 
         #chatwindow .inputbox .button a:hover {
-            background: #777;
+            background: #2980b9;
         }
 
         #chatwindow .disclaimer {
-            color: #888;
+            color: #777;
             font-size: 12px;
             text-align: center;
             margin-top: 10px;
@@ -171,11 +166,13 @@
 <body>
 
     <div id="app">
+
         <div id="sidebar">
 
             <div id="newthread">
                 <input type="button" value="+ New Thread">
             </div>
+
             <div id="functions">
                 <a href="#" class="button">
                     🐕 Dark Mode
@@ -192,6 +189,7 @@
 
         <div id="chatwindow">
             <div class="conversation">
+                <!-- Messages will be appended here -->
             </div>
 
             <div class="chatbox">
@@ -220,8 +218,8 @@
         $('#chatmsg').on('keypress', function(e) {
             if (e.which == 13) {
                 e.preventDefault();
-            resolvechatmsg();
-        }
+                resolvechatmsg();
+            }
         });
 
         $('#newthread').click(function(e) {
@@ -251,9 +249,7 @@
                 .append($('<div class="msg"></div>').text(message));
             $('.conversation').append(thread);
 
-            //Scroll to Bottom
             $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
-
         }
 
         async function pushDogResponse(userMessage) {

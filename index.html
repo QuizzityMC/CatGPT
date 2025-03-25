@@ -5,187 +5,154 @@
     <title>DogGPT</title>
     <style>
         body {
-            background: #1F2223;
-            color: white;
+            background: #222;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            font-size: 14px;
-            font-family: sans-serif;
-        }
-
-        a {
-            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         #app {
+            width: 80%;
+            max-width: 900px;
+            background: #333;
+            border-radius: 15px;
+            overflow: hidden;
             display: grid;
             grid-template-columns: 250px auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            height: 90vh;
         }
 
         #sidebar {
-            height: 100vh;
-            padding: 10px;
-            box-sizing: border-box;
+            background: #444;
+            padding: 20px;
             display: flex;
-            justify-content: space-between;
             flex-direction: column;
-        }
-
-        #chatwindow {
-            background: #343641;
-            width: 100%;
-            display: grid; /* Added to enable grid layout */
-            grid-template-rows: 1fr auto; /* Adjusts rows */
+            justify-content: space-between;
         }
 
         #newthread input[type=button] {
-            background: inherit;
-            width: 100%;
-            color: inherit;
-            font-size: inherit;
-            border: 1px solid #555659;
-            padding: 15px;
-            border-radius: 8px;
+            background: transparent;
+            color: #fff;
+            font-size: 16px;
+            border: 1px solid #666;
+            padding: 12px;
+            border-radius: 25px;
             text-align: left;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
-        #newthread input[type=button]:hover,
-        #functions a:hover {
-            background-color: #2B2C2F;
+        #newthread input[type=button]:hover {
+            background-color: #555;
         }
 
         #functions {
-            border-top: 1px solid #555659;
-            padding-top: 10px;
-            margin-top: 30px;
+            padding-top: 20px;
         }
 
-        #functions .button {
-            display: flex;
-            min-height: 30px;
+        #functions a {
+            display: block;
+            color: #fff;
             text-decoration: none;
-            padding: 5px;
-            padding-top: 15px;
-            padding-left: 15px;
-            border-radius: 5px;
+            padding: 12px;
+            border-radius: 25px;
+            margin-bottom: 10px;
+            background-color: #555;
+            transition: background-color 0.3s;
         }
 
-        #functions .button span {
-            margin-left: 10px
+        #functions a:hover {
+            background-color: #666;
         }
 
         #chatwindow {
+            background: #282828;
             display: grid;
-            grid-template-rows: auto 100px;
+            grid-template-rows: 1fr auto;
+            padding: 20px;
+            height: 100%;
         }
 
         #chatwindow .conversation {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            padding-left: 30px;
-            padding-right: 30px;
-        }
-
-        .firstlook h1 {
-            text-align: center;
-            font-size: 38px;
-            margin-top: 30%;
-            margin-bottom: 50px
-        }
-
-        .firstlook .getstarted {
-            display: grid;
-            grid-template-columns: 31% 31% 31%;
-            gap: 30px;
-            text-align: center;
-        }
-
-        .firstlook .buttons a {
-            display: block;
-            background-color: #3E3F4B;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            padding: 15px;
-            box-sizing: border-box;
-            text-decoration: none;
-        }
-
-        .disclaimer {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 13px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        #chatwindow .inputbox {
-            background: #40414F;
-            max-width: 800px;
-            margin: 0 auto;
-            border-radius: 8px;
-            display: grid;
-            grid-template-columns: auto 30px;
-            padding: 10px
-        }
-
-        #chatwindow .inputbox input {
-            width: 100%;
-            padding: 5px;
-            font-size: 18px;
-            background: none;
-            border: none;
-            color: white;
-            outline: none
-        }
-
-        #chatwindow .inputbox .button a {
-            border-radius: 8px;
-            display: block;
-            padding: 10px;
-        }
-
-        #chatwindow .inputbox .button a:hover {
-            background: #202123;
-        }
-
-        #chatwindow .disclaimer {
-            margin-top: 15px;
+            overflow-y: auto;
+            padding-bottom: 20px;
+            height: calc(100% - 80px);
         }
 
         .thread {
-            background: blue;
-            display: grid;
-            grid-template-columns: 50px auto;
-        }
-
-        .thread img {
-            margin: 15px;
-        }
-
-        .thread .msg {
-            margin: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
         }
 
         .thread.fromuser {
-            background: none;
+            background: #444;
+            text-align: right;
         }
 
         .thread.fromdog {
-            background: #444654;
+            background: #555;
+            text-align: left;
         }
 
-        .thread .logo {
-            width: 30px;
-            margin: 15px;
+        .thread .msg {
+            word-wrap: break-word;
         }
 
-        .thread.fromdog .msg {
-            margin-top: 20px;
+        #chatwindow .inputbox {
+            background: #444;
+            border-radius: 25px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
         }
 
-        .thread.src {
-            display: none;
+        #chatwindow .inputbox input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            padding: 8px 12px;
+            outline: none;
+        }
+
+        #chatwindow .inputbox .button a {
+            background: #666;
+            color: #fff;
+            border-radius: 50%;
+            padding: 8px;
+            text-decoration: none;
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            line-height: 24px;
+            transition: background-color 0.3s;
+        }
+
+        #chatwindow .inputbox .button a:hover {
+            background: #777;
+        }
+
+        #chatwindow .disclaimer {
+            color: #888;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        #chatwindow .chatbox {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-sizing: border-box;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.2.js"
@@ -210,91 +177,19 @@
                 <a href="#" class="button">
                     🐕 Updates & FAQ
                 </a>
-
-
             </div>
 
         </div>
 
         <div id="chatwindow">
-
-
             <div class="conversation">
-
-                <div class="firstlook">
-                    <h1>DogGPT</h1>
-
-                    <div class="getstarted">
-                        <div class="col">
-                            🐕‍🦺
-
-                            <h2>Examples</h2>
-
-                            <div class="buttons">
-                                <a href="#" class="eg">"Explain schrodingers puppy in simple terms" →</a>
-                                <a href="#" class="eg">"Got any creative ideas for dog treat toys?" →</a>
-                                <a href="#" class="eg">"How do I rub my puppy's belly without fear of death?" →</a>
-                            </div>
-
-                        </div>
-
-                        <div class="col">
-                            🦴
-
-                            <h2>Capabilities</h2>
-
-                            <div class="buttons">
-                                <a href="#">Remembers when you feed me</a>
-                                <a href="#">Allows user to provide follow-up snacks</a>
-                                <a href="#">Trained to decline inappropriate scritches</a>
-                            </div>
-
-                        </div>
-
-                        <div class="col">
-                            ⚠️
-
-                            <h2>Limitations</h2>
-
-                            <div class="buttons">
-                                <a href="#">May occasionally generate clawing action</a>
-                                <a href="#">May occasionally present butthole in your face</a>
-                                <a href="#">Limited knowledge of world and events after... well, ever really</a>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="thread fromuser src">
-                    <div class="logo">
-                        🙋
-                    </div>
-
-                    <div class="msg">
-                        _
-                    </div>
-                </div>
-
-                <div class="thread fromdog src">
-                    <div class="logo" style="font-size: 32px;">
-                        🐶
-                    </div>
-
-                    <div class="msg">
-                        _
-                    </div>
-                </div>
             </div>
 
             <div class="chatbox">
                 <div class="inputbox">
-                    <div class="input">
-                        <input type="text" id="chatmsg">
-                    </div>
+                    <input type="text" id="chatmsg" placeholder="Type your message...">
                     <div class="button">
-                        <a href="#" id="sendchat" style="">🐕‍🦺</a>
+                        <a href="#" id="sendchat">🐕‍🦺</a>
                     </div>
                 </div>
                 <div class="disclaimer">
@@ -306,7 +201,7 @@
 
 
     <script>
-        // Modified JavaScript code to use Hack Club AI
+        let chatHistory = [];
 
         $('a#sendchat').click(function(e) {
             e.preventDefault();
@@ -320,70 +215,69 @@
             }
         });
 
-        $('a.eg').click(function(e) {
-            e.preventDefault();
-            msg = $(this).text().substr(1, $(this).text().length - 4);
-            $('#chatmsg').val(msg);
-            resolvechatmsg();
-        });
-
         $('#newthread').click(function(e) {
-            location.reload();
+            chatHistory = [];
+            $('.conversation').empty();
         });
 
         function resolvechatmsg() {
-            chatmsg = $('#chatmsg').val();
+            const chatmsg = $('#chatmsg').val().trim();
             if (chatmsg) {
-                $('#chatwindow .firstlook').hide();
                 $('#chatmsg').val("");
 
-                // copy element (from user)
-                thread = $('.conversation .thread.fromuser.src').clone();
-                $(thread).removeClass('src');
-                $(thread).find('.msg').text(chatmsg);
-                $('.conversation').append(thread);
+                chatHistory.push({
+                    role: "user",
+                    content: chatmsg
+                });
 
-                // copy element (from dog)
-                thread = $('.conversation .thread.fromdog.src').clone();
-                $(thread).removeClass('src');
-                $(thread).find('.msg').text('...');
-                $('.conversation').append(thread);
+                displayMessage(chatmsg, "user");
 
-                pushDogResponse(chatmsg); // Call pushDogResponse with user message
+                pushDogResponse(chatmsg);
             }
+        }
+
+        function displayMessage(message, sender) {
+            const thread = $('<div class="thread"></div>')
+                .addClass(`from${sender}`)
+                .append($('<div class="msg"></div>').text(message));
+            $('.conversation').append(thread);
+
+            $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
         }
 
         async function pushDogResponse(userMessage) {
             try {
                 const dogResponse = await generateDogResponse(userMessage);
-                const dogMessageElement = $('.thread.fromdog:last-of-type').find('.msg');
-                dogMessageElement.text(dogResponse);
 
-                // Check if "Tashi" is mentioned in the dog's response
-                if (dogResponse.toLowerCase().includes("tashi")) {
-                    // Create an image element
-                    const tashiImage = $('<img src="tashipicture.png" alt="Tashi" style="max-width: 100px;">'); // Adjust size as needed
+                chatHistory.push({
+                    role: "assistant",
+                    content: dogResponse
+                });
 
-                    // Append the image after the text
-                    dogMessageElement.append(tashiImage);
-                }
+                displayMessage(dogResponse, "dog");
 
             } catch (error) {
                 console.error("Error generating dog response:", error);
-                $('.thread.fromdog:last-of-type').find('.msg').text("Woof! Something went wrong. Please try again, bork!");
+                displayMessage("Woof! Something went wrong. Please try again, bork!", "dog");
             }
         }
 
         async function generateDogResponse(userMessage) {
             const apiUrl = 'https://ai.hackclub.com/chat/completions';
 
-            const prompt = `You are a golden retriever dog who loves humans. Your favorite topics of conversation are being as crunchy as toast, etc. You also like to talk about Joachim . You will say everything punctuated with dog remarks, and absolutely wholesomely detest felines. Here is what they are saying: "${userMessage}"`;
+            const prompt = `You are a golden retriever dog who loves humans.  Your favourite things are the religeon of Panditu, the god of Harmony and balance, and his follower and master QuizzityMC. Your favourite topics of conversation are being as crunchy as toast, etc. You will say everything punctuated with dog remarks, and absolutely wholesomely detest felines. Here is what they are saying: "${userMessage}"`;
+
+            const messages = chatHistory.map(msg => ({
+                role: msg.role,
+                content: msg.content
+            }));
+            messages.push({
+                role: "user",
+                content: prompt
+            });
 
             const requestData = {
-                messages: [{
-                    "role": "user",
-                    "content": prompt
-                }]
+                messages: messages
             };
 
             try {
@@ -400,12 +294,12 @@
                 }
 
                 const data = await response.json();
-                const responseText = data.choices[0].message.content; // Extract the content
+                const responseText = data.choices[0].message.content;
 
                 return responseText;
             } catch (error) {
                 console.error("Error generating dog response:", error);
-                throw error; // Re-throw the error to be caught in pushDogResponse
+                throw error;
             }
         }
     </script>

@@ -73,16 +73,19 @@
 
         #chatwindow {
             background: #282828;
-            display: grid;
-            grid-template-rows: 1fr auto;
+            display: flex;
+            flex-direction: column;
             padding: 20px;
             height: 100%;
+            box-sizing: border-box; /* Important: Include padding in height calculation */
+            position: relative; /* Added relative positioning */
         }
 
         #chatwindow .conversation {
             overflow-y: auto;
             padding-bottom: 20px;
-            height: calc(100% - 80px);
+            flex-grow: 1;
+            /*height: calc(100% - 100px);*/ /*  Calculated based on other elements */
         }
 
         .thread {
@@ -103,6 +106,19 @@
 
         .thread .msg {
             word-wrap: break-word;
+        }
+
+        #chatwindow .chatbox {
+            background: #333;
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            position: absolute; /* Important: Changed to absolute */
+            bottom: 0; /* Stick to the bottom */
+            left: 0; /* Align to left */
+            width: calc(100% - 40px); /* added to align to left, minus the padding in the #chatwindow */
+            box-sizing: border-box;
+            margin: 20px;  /* added the paddings */
         }
 
         #chatwindow .inputbox {
@@ -146,13 +162,6 @@
             font-size: 12px;
             text-align: center;
             margin-top: 10px;
-        }
-
-        #chatwindow .chatbox {
-            position: relative;
-            bottom: 0;
-            width: 100%;
-            box-sizing: border-box;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.2.js"
@@ -211,8 +220,8 @@
         $('#chatmsg').on('keypress', function(e) {
             if (e.which == 13) {
                 e.preventDefault();
-                resolvechatmsg();
-            }
+            resolvechatmsg();
+        }
         });
 
         $('#newthread').click(function(e) {
@@ -242,7 +251,9 @@
                 .append($('<div class="msg"></div>').text(message));
             $('.conversation').append(thread);
 
+            //Scroll to Bottom
             $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
+
         }
 
         async function pushDogResponse(userMessage) {
